@@ -12,9 +12,13 @@ export default function Auth() {
   const { toast } = useToast();
   const [showFirebaseConfig, setShowFirebaseConfig] = useState(false);
   const [firebaseConfig, setFirebaseConfig] = useState({
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
+    apiKey: 'AIzaSyDsJxpNa_PKylt-HhPLrnPmSMDi6ssYsqc',
+    authDomain: 'fir-e02e2.firebaseapp.com',
+    projectId: 'fir-e02e2',
+    storageBucket: 'fir-e02e2.firebasestorage.app',
+    messagingSenderId: '304693076469',
+    appId: '1:304693076469:web:a8dcb552bc65a5cbe580bc',
+    measurementId: 'G-3SH8Q93E9P'
   });
 
   useEffect(() => {
@@ -99,7 +103,7 @@ export default function Auth() {
           {showFirebaseConfig && (
             <div className="mt-4 space-y-3 animate-fade-in">
               <p className="text-xs text-muted-foreground">
-                To enable Google sign-in, add your Firebase configuration:
+                Firebase configuration for Google sign-in:
               </p>
               <Input
                 placeholder="Firebase API Key"
@@ -117,6 +121,30 @@ export default function Auth() {
                 placeholder="Project ID"
                 value={firebaseConfig.projectId}
                 onChange={(e) => setFirebaseConfig(prev => ({ ...prev, projectId: e.target.value }))}
+                className="bg-input border-border"
+              />
+              <Input
+                placeholder="Storage Bucket"
+                value={firebaseConfig.storageBucket}
+                onChange={(e) => setFirebaseConfig(prev => ({ ...prev, storageBucket: e.target.value }))}
+                className="bg-input border-border"
+              />
+              <Input
+                placeholder="Messaging Sender ID"
+                value={firebaseConfig.messagingSenderId}
+                onChange={(e) => setFirebaseConfig(prev => ({ ...prev, messagingSenderId: e.target.value }))}
+                className="bg-input border-border"
+              />
+              <Input
+                placeholder="App ID"
+                value={firebaseConfig.appId}
+                onChange={(e) => setFirebaseConfig(prev => ({ ...prev, appId: e.target.value }))}
+                className="bg-input border-border"
+              />
+              <Input
+                placeholder="Measurement ID"
+                value={firebaseConfig.measurementId}
+                onChange={(e) => setFirebaseConfig(prev => ({ ...prev, measurementId: e.target.value }))}
                 className="bg-input border-border"
               />
               <Button
