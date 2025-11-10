@@ -114,7 +114,8 @@ export default function Auth() {
           />
 
           <p className="text-center text-xs text-muted-foreground mt-6">
-            Note: Configure Google OAuth in backend settings to enable Google sign-in
+            <strong>To enable Google sign-in:</strong><br />
+            Go to backend settings → Users → Auth Settings → Google Settings
           </p>
         </div>
 
