@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Send, Settings, Download, Image as ImageIcon, LogOut, Menu } from 'lucide-react';
+import { Send, Download, Image as ImageIcon, LogOut, Menu } from 'lucide-react';
 import ConversationSidebar from '@/components/ConversationSidebar';
 import FileUpload from '@/components/FileUpload';
+import VoiceInterface from '@/components/VoiceInterface';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -242,6 +243,33 @@ export default function Chat() {
     setMessages([]);
   };
 
+  const handleVoiceTranscript = async (text: string, isUser: boolean) => {
+    if (isUser) {
+      // User spoke
+      const userMessage: Message = { role: 'user', content: text };
+      setMessages(prev => [...prev, userMessage]);
+
+      // Create or get conversation ID
+      let convId = currentConversationId;
+      if (!convId) {
+        convId = await createNewConversation(text);
+        if (convId) setCurrentConversationId(convId);
+      }
+
+      if (convId) {
+        await saveMessage(convId, userMessage);
+      }
+    } else {
+      // AI responded
+      const aiMessage: Message = { role: 'assistant', content: text };
+      setMessages(prev => [...prev, aiMessage]);
+
+      if (currentConversationId) {
+        await saveMessage(currentConversationId, aiMessage);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-dark flex">
       {sidebarOpen && (
@@ -278,6 +306,12 @@ export default function Chat() {
             </div>
           </div>
         </header>
+
+        <div className="border-b border-border bg-card/50 backdrop-blur-sm p-4">
+          <div className="container mx-auto max-w-4xl flex justify-center">
+            <VoiceInterface onTranscript={handleVoiceTranscript} />
+          </div>
+        </div>
 
         <div className="flex-1 overflow-y-auto p-4">
           <div className="container mx-auto max-w-4xl space-y-6">
