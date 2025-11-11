@@ -22,14 +22,24 @@ export default function Auth() {
 
   const handleGoogleSignIn = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin + '/chat'
-        }
+          redirectTo: `${window.location.origin}/chat`,
+          queryParams: {
+            prompt: 'consent',
+            access_type: 'offline',
+          },
+          skipBrowserRedirect: true,
+        },
       });
 
       if (error) throw error;
+
+      if (data?.url) {
+        const target = window.top ?? window;
+        target.location.href = data.url;
+      }
     } catch (error: any) {
       toast({
         title: 'Error',
