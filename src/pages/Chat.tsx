@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Send, Download, Image as ImageIcon, LogOut, Menu } from 'lucide-react';
 import ConversationSidebar from '@/components/ConversationSidebar';
 import FileUpload from '@/components/FileUpload';
+import MessageContent from '@/components/MessageContent';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -301,7 +302,7 @@ export default function Chat() {
                       : 'bg-card border border-border shadow-glow-purple'
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{message.content}</p>
+                  <MessageContent content={message.content} role={message.role} />
                   {message.image && (
                     <img src={message.image} alt="Generated" className="mt-4 rounded-lg max-w-full" />
                   )}
